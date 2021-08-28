@@ -18,6 +18,8 @@ def parse_args ():
   parser.add_argument("chunk_export", type=str, help="Path to MCASelector chunk selection export")
   parser.add_argument("--output-type", type=str, dest="otype", default="json",
                       help = "Type of output data (JSON and CSV currently supported)")
+  parser.add_argument("--outfile", type=str, dest="outfile", default="output",
+                      help = "Name of output file (minus extension).")
   return parser.parse_args()
 
 def build_totals (opts):
@@ -33,10 +35,10 @@ def build_totals (opts):
         totals.setdefault(k, [0])[0] += v[0]
   
   if opts.otype == "json":
-    with open("output.json", "w+") as out:
+    with open("%s.json" % (opts.outfile), "w+") as out:
       out.write(json.dumps({k:v[0] for k,v in totals.items()}))
   elif opts.otype == "csv":
-    with open("output.csv", "w+") as out:
+    with open("%s.csv" % (opts.outfile), "w+") as out:
       for k,v in totals.items():
         out.write("%s,%d\n" % (k, v[0]))
 
