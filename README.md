@@ -23,7 +23,7 @@ The first two fields are the region, and the second two are the chunk.
 
 # Usage
 
-The command-line tool `storage-totals` will take your region data directory and the list of chunk selections, and output total counts for each distinct item it finds in a container in JSON or CSV format.  Shulkers within other containers are also searched, while droppers and dispensers are currently ignored.
+The command-line tool `storage-totals` will take your region data directory and the list of chunk selections, and output total counts for each distinct item it finds in a container in JSON or CSV format.  Shulkers within other containers are also searched.
 
 ```
 usage: storage-totals [-h] [--output-type OTYPE] [--outfile OUTFILE]
@@ -38,4 +38,12 @@ optional arguments:
   --output-type OTYPE  Type of output data (JSON and CSV currently supported)
   --outfile OUTFILE    Name of output file (minus extension).
 ```
+
+# Notes
+
+Potions are written out in the format ```<id>(<effect_id>)```:
+
+```minecraft:potion(minecraft:long_fire_resistance)```
+
+This format may change in the future to something less ugly.
 
