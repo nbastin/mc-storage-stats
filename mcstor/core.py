@@ -74,8 +74,12 @@ class StorageEntityStreamer():
 
 
 def compute_shulker (slot, stuff):
-  for sslot in slot["tag"]["BlockEntityTag"]["Items"]:
-    stuff.setdefault(str(sslot["id"]), [0])[0] += sslot["Count"].value
+  try:
+    for sslot in slot["tag"]["BlockEntityTag"]["Items"]:
+      stuff.setdefault(str(sslot["id"]), [0])[0] += sslot["Count"].value
+  except KeyError:
+    # Box has never been placed and has no slots
+    pass
 
 
 def compute_contents (te):
@@ -88,6 +92,7 @@ def compute_contents (te):
         compute_shulker(slot, stuff)
   except KeyError:
     if str(te["id"]) in SHULKERS:
+      # Box has never been placed and has no slots
       pass
     else:
       print(te["id"], te["x"], te["y"], te["z"])
