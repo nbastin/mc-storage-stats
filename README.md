@@ -35,5 +35,6 @@ positional arguments:
 optional arguments:
   -h, --help           show this help message and exit
   --output-type OTYPE  Type of output data (JSON and CSV currently supported)
+  --outfile OUTFILE    Name of output file (minus extension).
 ```
 
