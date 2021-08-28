@@ -14,7 +14,7 @@ from mcstor.core import ChunkStreamer, StorageEntityStreamer, compute_contents
 
 def parse_args ():
   parser = argparse.ArgumentParser()
-  parser.add_argument("regiondir", type=str, help="Path to region files")
+  parser.add_argument("regiondir", type=str, help="Path to directory containing region files")
   parser.add_argument("chunk_export", type=str, help="Path to MCASelector chunk selection export")
   return parser.parse_args()
 
