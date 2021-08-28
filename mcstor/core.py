@@ -29,6 +29,8 @@ SHULKERS = [
 STORAGE_IDS = [
   "minecraft:barrel",
   "minecraft:chest",
+  "minecraft:dispenser",
+  "minecraft:dropper",
   "minecraft:hopper",
   "minecraft:trapped_chest",
   ]
@@ -99,6 +101,7 @@ def compute_contents (te):
       if item_id not in SHULKERS:
         accumulate_slot_contents(slot, stuff)
       else:
+        stuff.setdefault(item_id, [0])[0] += 1
         compute_shulker(slot, stuff)
   except KeyError:
     if str(te["id"]) in SHULKERS:
