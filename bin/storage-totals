@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+# Copyright (c) 2021  Nick Bastin
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+import argparse
+import json
+import os.path
+
+from mcstor.core import ChunkStreamer, StorageEntityStreamer, compute_contents
+
+def parse_args ():
+  parser = argparse.ArgumentParser()
+  parser.add_argument("regiondir", type=str, help="Path to region files")
+  parser.add_argument("chunk_export", type=str, help="Path to MCASelector chunk selection export")
+  return parser.parse_args()
+
+def build_totals (opts):
+  regiondir = os.path.normpath(opts.regiondir)
+  chunk_export = os.path.normpath(opts.chunk_export)
+
+  totals = {}
+  cs = ChunkStreamer(regiondir, chunk_export)
+  for chunk in cs:
+    for te in StorageEntityStreamer(chunk):
+      d = compute_contents(te)
+      for k,v in d.items():
+        totals.setdefault(k, [0])[0] += v[0]
+  
+  with open("output.json", "w+") as out:
+    out.write(json.dumps({k,v[0] for k,v in totals.items()})
+
+
+if __name__ == '__main__':
+  opts = parse_args()
+
+  build_totals(opts)
