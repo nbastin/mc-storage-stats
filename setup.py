@@ -12,7 +12,7 @@ setup(name = "mcstor",
       packages = find_packages(),
       scripts = ['bin/storage-totals'],
       install_requires = [
-        "anvil"
+        "anvil-parser"
         ],
       classifiers = [
         "Programming Language :: Python :: 3.6",

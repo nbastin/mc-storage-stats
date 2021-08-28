@@ -31,7 +31,7 @@ def build_totals (opts):
         totals.setdefault(k, [0])[0] += v[0]
   
   with open("output.json", "w+") as out:
-    out.write(json.dumps({k,v[0] for k,v in totals.items()})
+    out.write(json.dumps({k:v[0] for k,v in totals.items()}))
 
 
 if __name__ == '__main__':
