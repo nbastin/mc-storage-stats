@@ -27,8 +27,9 @@ SHULKERS = [
   ]
 
 STORAGE_IDS = [
-  "minecraft:chest",
   "minecraft:barrel",
+  "minecraft:chest",
+  "minecraft:hopper",
   "minecraft:trapped_chest",
   ]
 STORAGE_IDS.extend(SHULKERS)
