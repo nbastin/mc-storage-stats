@@ -74,14 +74,18 @@ class StorageEntityStreamer():
         yield te
 
 
+def accumulate_slot_contents (slot, stuff):
+    item_id = str(slot["id"])
+    if item_id in POTIONS:
+      stuff.setdefault("%s(%s)" % (item_id, str(slot["tag"]["Potion"])), [0])[0] += slot["Count"].value
+    else:
+      stuff.setdefault(item_id, [0])[0] += slot["Count"].value
+
+
 def compute_shulker (slot, stuff):
   try:
     for sslot in slot["tag"]["BlockEntityTag"]["Items"]:
-      item_id = str(sslot["id"])
-      if item_id in POTIONS:
-        stuff.setdefault("%s(%s)" % (item_id, str(sslot["tag"]["Potion"])), [0])[0] += sslot["Count"].value
-      else:
-        stuff.setdefault(item_id, [0])[0] += sslot["Count"].value
+      accumulate_slot_contents(sslot, stuff)
   except KeyError:
     # Box has never been placed and has no slots
     pass
@@ -93,10 +97,7 @@ def compute_contents (te):
     for slot in te["Items"]:
       item_id = str(slot["id"])
       if item_id not in SHULKERS:
-        if item_id in POTIONS:
-          stuff.setdefault("%s(%s)" % (item_id, str(slot["tag"]["Potion"])), [0])[0] += slot["Count"].value
-        else:
-          stuff.setdefault(item_id, [0])[0] += slot["Count"].value
+        accumulate_slot_contents(slot, stuff)
       else:
         compute_shulker(slot, stuff)
   except KeyError:
