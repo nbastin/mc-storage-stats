@@ -16,7 +16,8 @@ def parse_args ():
   parser = argparse.ArgumentParser()
   parser.add_argument("regiondir", type=str, help="Path to directory containing region files")
   parser.add_argument("chunk_export", type=str, help="Path to MCASelector chunk selection export")
-  parser.add_argument("--output-type", type=str, dest="otype", default="json")
+  parser.add_argument("--output-type", type=str, dest="otype", default="json",
+                      help = "Type of output data (JSON and CSV currently supported)")
   return parser.parse_args()
 
 def build_totals (opts):
@@ -34,6 +35,10 @@ def build_totals (opts):
   if opts.otype == "json":
     with open("output.json", "w+") as out:
       out.write(json.dumps({k:v[0] for k,v in totals.items()}))
+  elif opts.otype == "csv":
+    with open("output.csv", "w+") as out:
+      for k,v in totals.items():
+        out.write("%s,%d\n" % (k, v[0]))
 
 
 if __name__ == '__main__':
