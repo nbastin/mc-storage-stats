@@ -6,12 +6,37 @@
 
 import anvil
 
+SHULKERS = [
+  "minecraft:shulker_box",
+  "minecraft:white_shulker_box",
+  "minecraft:orange_shulker_box",
+  "minecraft:magenta_shulker_box",
+  "minecraft:light_blue_shulker_box",
+  "minecraft:yellow_shulker_box",
+  "minecraft:lime_shulker_box",
+  "minecraft:pink_shulker_box",
+  "minecraft:gray_shulker_box",
+  "minecraft:light_gray_shulker_box",
+  "minecraft:cyan_shulker_box",
+  "minecraft:purple_shulker_box",
+  "minecraft:blue_shulker_box",
+  "minecraft:brown_shulker_box",
+  "minecraft:green_shulker_box",
+  "minecraft:red_shulker_box",
+  "minecraft:black_shulker_box",
+  ]
+
 STORAGE_IDS = [
   "minecraft:chest",
   "minecraft:barrel",
   "minecraft:trapped_chest",
-#  "minecraft:shulker_box",
-#  "minecraft:light_gray_shulker_box",
+  ]
+STORAGE_IDS.extend(SHULKERS)
+
+POTIONS = [
+  "minecraft:potion",
+  "minecraft:lingering_potion",
+  "minecraft:splash_potion"
   ]
 
 class ChunkStreamer():
@@ -48,12 +73,23 @@ class StorageEntityStreamer():
         yield te
 
 
+def compute_shulker (slot, stuff):
+  for sslot in slot["tag"]["BlockEntityTag"]["Items"]:
+    stuff.setdefault(str(sslot["id"]), [0])[0] += sslot["Count"].value
+
+
 def compute_contents (te):
   stuff = {}
   try:
     for slot in te["Items"]:
-      stuff.setdefault(str(slot["id"]), [0])[0] += slot["Count"].value
+      if str(slot["id"]) not in SHULKERS:
+        stuff.setdefault(str(slot["id"]), [0])[0] += slot["Count"].value
+      else:
+        compute_shulker(slot, stuff)
   except KeyError:
-    print(te["id"], te["x"], te["y"], te["z"])
+    if str(te["id"]) in SHULKERS:
+      pass
+    else:
+      print(te["id"], te["x"], te["y"], te["z"])
   return stuff
 
