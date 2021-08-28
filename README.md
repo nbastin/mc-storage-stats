@@ -26,7 +26,8 @@ The first two fields are the region, and the second two are the chunk.
 The command-line tool `storage-totals` will take your region data directory and the list of chunk selections, and output total counts for each distinct item it finds in a container in JSON or CSV format.  Shulkers within other containers are also searched, while droppers and dispensers are currently ignored.
 
 ```
-usage: storage-totals [-h] [--output-type OTYPE] regiondir chunk_export
+usage: storage-totals [-h] [--output-type OTYPE] [--outfile OUTFILE]
+                      regiondir chunk_export
 
 positional arguments:
   regiondir            Path to directory containing region files
